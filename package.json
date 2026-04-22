@@ -1,0 +1,19 @@
+{
+  "name": "weather-cli-skills",
+  "version": "1.0.0",
+  "description": "Beginner GitHub Skills exercise: build a Node.js weather CLI with GitHub Copilot CLI",
+  "main": "weather.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node weather.js",
+    "weather": "node weather.js"
+  },
+  "keywords": [
+    "cli",
+    "weather",
+    "github-skills",
+    "copilot"
+  ],
+  "author": "",
+  "license": "MIT"
+}
