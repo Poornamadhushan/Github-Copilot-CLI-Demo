@@ -200,6 +200,10 @@ node weather.js London
 node weather.js 94040
 ```
 
+## License
+
+[MIT License](LICENSE)
+
 ## Step 4: Check your work
 
 Use this checklist:
