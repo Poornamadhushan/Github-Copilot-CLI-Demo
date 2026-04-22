@@ -2,7 +2,7 @@
 
 ![original github octocat](https://octodex.github.com/images/original.png)
 
-👋 Hey there @Poornamadhushan! Welcome to your Skills exercise!
+👋 Hey there Welcome to your Skills exercise!
 
 Let's get you started with GitHub Copilot CLI! We will learn how to use it for
 issue management and building a Node.js weather CLI app.
