@@ -14,6 +14,10 @@
     "github-skills",
     "copilot"
   ],
+  "dependencies": {
+    "docxtemplater": "^3.49.0",
+    "pizzip": "^3.1.7"
+  },
   "author": "",
   "license": "MIT"
 }
