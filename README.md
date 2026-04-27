@@ -51,6 +51,39 @@ node weather.js London
 node weather.js 94040
 ```
 
+## Certificate generation (DOCX)
+
+You can generate a certificate from a PowerPoint template by running:
+
+```bash
+node weather.js cert
+```
+
+The CLI will ask for a student name and use today's date automatically, then
+create a PDF file in the `output/` folder. PDF export requires Microsoft Word
+on Windows.
+
+### Template setup
+
+Place your template at:
+
+```
+templates/certificate-template.docx
+```
+
+In the DOCX, add these placeholders exactly (double curly braces):
+
+- `{{NAME}}`
+- `{{DATE}}`
+
+These placeholders must be plain text in the document so they can be replaced.
+
+After a successful weather lookup, the CLI also prompts for the student name
+and generates the certificate automatically.
+
+PDF export requires Microsoft Word on Windows. If you only see a DOCX file,
+install Word and re-run the command.
+
 ## Step 1: Install Copilot CLI and use the issue template
 
 Duck prefers working in the terminal and wants to use AI from there. Duck is
