@@ -1,0 +1,31 @@
+name: Weather CLI Submission
+description: Submit your Weather CLI project for automated validation and certification.
+title: "[Submission] Your Name Here"
+labels:
+  - submission
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Weather CLI Project Submission
+
+        Fill in the form below to submit your project.
+        A GitHub Action will automatically validate your CLI and generate a certificate if it passes.
+
+  - type: input
+    id: student-name
+    attributes:
+      label: Student Name
+      description: Your full name (this will appear on your certificate).
+      placeholder: "Jane Doe"
+    validations:
+      required: true
+
+  - type: input
+    id: repo-url
+    attributes:
+      label: GitHub Repository URL
+      description: The full URL of your public Weather CLI repository.
+      placeholder: "https://github.com/username/weather-cli"
+    validations:
+      required: true

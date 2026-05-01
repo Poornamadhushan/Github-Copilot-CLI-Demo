@@ -1,0 +1,243 @@
+name: Validate Weather CLI Submission
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  validate-and-certify:
+    runs-on: ubuntu-latest
+    # Only process issues created via the submission template (auto-labelled "submission")
+    if: contains(github.event.issue.labels.*.name, 'submission')
+
+    permissions:
+      issues: write
+      contents: read
+
+    steps:
+      # ──────────────────────────────────────────────────────────────────────
+      # 1. Setup
+      # ──────────────────────────────────────────────────────────────────────
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install repository dependencies
+        run: npm install
+
+      # ──────────────────────────────────────────────────────────────────────
+      # 2. Parse the issue body produced by the submission.yml template
+      # ──────────────────────────────────────────────────────────────────────
+      - name: Extract submission fields
+        id: fields
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const body = context.payload.issue.body || '';
+
+            // GitHub issue forms render as:  ### Field Label\n\nValue
+            const nameMatch  = body.match(/###\s*Student Name\s*\n+([^\n#]+)/);
+            const repoMatch  = body.match(/###\s*GitHub Repository URL\s*\n+([^\n#]+)/);
+
+            const name    = nameMatch  ? nameMatch[1].trim()  : '';
+            const repoUrl = repoMatch  ? repoMatch[1].trim()  : '';
+
+            if (!name || !repoUrl) {
+              core.setFailed('Could not parse Student Name or GitHub Repository URL from the issue body.');
+              return;
+            }
+
+            core.setOutput('name',     name);
+            core.setOutput('repo_url', repoUrl);
+
+      # ──────────────────────────────────────────────────────────────────────
+      # 3. Notify that validation has started
+      # ──────────────────────────────────────────────────────────────────────
+      - name: Post validation start comment
+        continue-on-error: true
+        uses: actions/github-script@v7
+        env:
+          STUDENT_NAME: ${{ steps.fields.outputs.name }}
+        with:
+          script: |
+            await github.rest.issues.createComment({
+              owner:        context.repo.owner,
+              repo:         context.repo.repo,
+              issue_number: context.issue.number,
+              body: `⏳ Validating Weather CLI submission for **${process.env.STUDENT_NAME}**…`,
+            });
+
+      # ──────────────────────────────────────────────────────────────────────
+      # 4. Clone the student's repository
+      # ──────────────────────────────────────────────────────────────────────
+      - name: Clone student repository
+        id: clone
+        env:
+          REPO_URL: ${{ steps.fields.outputs.repo_url }}
+        run: git clone --depth=1 "$REPO_URL" student-repo
+        continue-on-error: true
+
+      # ──────────────────────────────────────────────────────────────────────
+      # 5. Install the student's npm dependencies
+      # ──────────────────────────────────────────────────────────────────────
+      - name: Install student dependencies
+        id: npm_install
+        if: steps.clone.outcome == 'success'
+        run: npm install --prefix student-repo
+        continue-on-error: true
+
+      # ──────────────────────────────────────────────────────────────────────
+      # 6. Run the Weather CLI validator
+      #    node validator/validate.js runs `node index.js Colombo` inside
+      #    student-repo and checks for "weather" + "temperature" in stdout.
+      # ──────────────────────────────────────────────────────────────────────
+      - name: Run Weather CLI validator
+        id: validate
+        if: steps.npm_install.outcome == 'success'
+        run: node validator/validate.js student-repo
+        continue-on-error: true
+
+      # ──────────────────────────────────────────────────────────────────────
+      # 7. Determine the overall outcome
+      # ──────────────────────────────────────────────────────────────────────
+      - name: Determine validation outcome
+        id: outcome
+        if: always()
+        run: |
+          clone_outcome="${{ steps.clone.outcome }}"
+          install_outcome="${{ steps.npm_install.outcome }}"
+          validate_outcome="${{ steps.validate.outcome }}"
+
+          if [[ "$clone_outcome" != "success" ]]; then
+            echo "passed=false"      >> "$GITHUB_OUTPUT"
+            echo "failure_step=clone"   >> "$GITHUB_OUTPUT"
+          elif [[ "$install_outcome" != "success" ]]; then
+            echo "passed=false"      >> "$GITHUB_OUTPUT"
+            echo "failure_step=install" >> "$GITHUB_OUTPUT"
+          elif [[ "$validate_outcome" != "success" ]]; then
+            echo "passed=false"       >> "$GITHUB_OUTPUT"
+            echo "failure_step=validate" >> "$GITHUB_OUTPUT"
+          else
+            echo "passed=true"       >> "$GITHUB_OUTPUT"
+            echo "failure_step=none" >> "$GITHUB_OUTPUT"
+          fi
+
+      # ──────────────────────────────────────────────────────────────────────
+      # 8a. Failure path – comment and stop
+      # ──────────────────────────────────────────────────────────────────────
+      - name: Post failure comment
+        if: always() && steps.outcome.outputs.passed == 'false'
+        uses: actions/github-script@v7
+        env:
+          FAILURE_STEP: ${{ steps.outcome.outputs.failure_step }}
+          REPO_URL:     ${{ steps.fields.outputs.repo_url }}
+        with:
+          script: |
+            const step    = process.env.FAILURE_STEP;
+            const repoUrl = process.env.REPO_URL;
+
+            let detail = '';
+            if (step === 'clone') {
+              detail =
+                `Could not clone the repository: \`${repoUrl}\`\n\n` +
+                `Please verify the URL is correct and the repository is publicly accessible.`;
+            } else if (step === 'install') {
+              detail =
+                '`npm install` failed in your repository.\n\n' +
+                'Please ensure your `package.json` is valid and all dependencies are listed.';
+            } else {
+              detail =
+                'The CLI did not produce the expected output when run with `node index.js Colombo` ' +
+                '(or `node weather.js Colombo` if `index.js` is not present).\n\n' +
+                'Expected output to contain both **"weather"** and **"temperature"**.\n\n' +
+                'Please fix your CLI and submit again.';
+            }
+
+            await github.rest.issues.createComment({
+              owner:        context.repo.owner,
+              repo:         context.repo.repo,
+              issue_number: context.issue.number,
+              body:         `❌ Your Weather CLI is not working correctly.\n\n${detail}`,
+            });
+
+            core.setFailed('Validation failed — certificate will NOT be generated.');
+
+      # ──────────────────────────────────────────────────────────────────────
+      # 8b. Success path – generate certificate, upload, comment, close
+      # ──────────────────────────────────────────────────────────────────────
+      - name: Generate certificate DOCX
+        id: cert
+        if: steps.outcome.outputs.passed == 'true'
+        env:
+          STUDENT_NAME: ${{ steps.fields.outputs.name }}
+        run: |
+          mkdir -p output
+          node certificate/generate.js "$STUDENT_NAME" output | tee /tmp/cert-output.txt
+          echo "docx_path=$(grep '^DOCX_PATH=' /tmp/cert-output.txt | cut -d= -f2-)" >> "$GITHUB_OUTPUT"
+          echo "cert_name=$(grep '^CERT_NAME=' /tmp/cert-output.txt | cut -d= -f2-)" >> "$GITHUB_OUTPUT"
+
+      - name: Install LibreOffice for PDF conversion
+        if: steps.cert.outcome == 'success'
+        run: sudo apt-get install -y --no-install-recommends libreoffice
+
+      - name: Convert certificate DOCX to PDF
+        id: convert
+        if: steps.cert.outcome == 'success'
+        run: |
+          soffice --headless --convert-to pdf "${{ steps.cert.outputs.docx_path }}" --outdir output
+          echo "pdf_path=output/${{ steps.cert.outputs.cert_name }}.pdf" >> "$GITHUB_OUTPUT"
+
+      - name: Upload certificate as workflow artifact
+        id: upload
+        if: steps.cert.outcome == 'success'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.cert.outputs.cert_name }}
+          path: |
+            ${{ steps.cert.outputs.docx_path }}
+            ${{ steps.convert.outputs.pdf_path }}
+          retention-days: 30
+
+      - name: Post success comment
+        if: steps.outcome.outputs.passed == 'true'
+        uses: actions/github-script@v7
+        env:
+          STUDENT_NAME:  ${{ steps.fields.outputs.name }}
+          ARTIFACT_URL:  ${{ steps.upload.outputs.artifact-url }}
+        with:
+          script: |
+            const name        = process.env.STUDENT_NAME;
+            const artifactUrl = process.env.ARTIFACT_URL ||
+              `https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+
+            await github.rest.issues.createComment({
+              owner:        context.repo.owner,
+              repo:         context.repo.repo,
+              issue_number: context.issue.number,
+              body: [
+                `🎉 Congratulations ${name}! Your Weather CLI works correctly.`,
+                ``,
+                `Your certificate has been generated and is ready to download.`,
+                ``,
+                `📄 **[Download Certificate](${artifactUrl})**`,
+                ``,
+                `![WeatherCLI Certified](https://img.shields.io/badge/WeatherCLI-Certified-green)`,
+              ].join('\n'),
+            });
+
+      - name: Close issue
+        if: steps.outcome.outputs.passed == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.update({
+              owner:        context.repo.owner,
+              repo:         context.repo.repo,
+              issue_number: context.issue.number,
+              state:        'closed',
+              state_reason: 'completed',
+            });
