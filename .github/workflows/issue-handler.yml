@@ -151,7 +151,8 @@ jobs:
                 'Please ensure your `package.json` is valid and all dependencies are listed.';
             } else {
               detail =
-                'The CLI did not produce the expected output when run with `node index.js Colombo`.\n\n' +
+                'The CLI did not produce the expected output when run with `node index.js Colombo` ' +
+                '(or `node weather.js Colombo` if `index.js` is not present).\n\n' +
                 'Expected output to contain both **"weather"** and **"temperature"**.\n\n' +
                 'Please fix your CLI and submit again.';
             }
