@@ -178,6 +178,8 @@ async function generateCertificate() {
   const outputBuffer = renderDocxTemplate(templateBuffer, {
     NAME: name,
     DATE: date,
+    name,
+    date,
   });
 
   await fs.mkdir(DEFAULT_OUTPUT_DIR, { recursive: true });
