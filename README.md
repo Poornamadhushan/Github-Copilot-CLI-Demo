@@ -140,7 +140,7 @@ and ask you to log in with your GitHub account. Follow the prompts to authorise.
 | `/session` | Show details about the current chat session |
 | `/context` | View current token usage |
 | `/usage` | View session statistics |
-| `/share [file\|gist] [path]` | Share your session to a file or GitHub Gist |
+| `/share [file|gist] [path]` | Share your session to a file or GitHub Gist |
 | `/delegate` | Delegate a task to the Copilot coding agent |
 
 ---
@@ -160,8 +160,11 @@ If you have never used a terminal before, here is a quick orientation:
 
 3. **Open the repository in a Codespace** (recommended — no local setup needed):
 
+   Replace `YOUR-USERNAME` with your GitHub username in the URL below, then
+   open it in a new tab:
+
    ```
-   https://codespaces.new/Poornamadhushan/Github-Copilot-CLI-Demo?quickstart=1
+   https://codespaces.new/YOUR-USERNAME/Github-Copilot-CLI-Demo?quickstart=1
    ```
 
    Click the green **Create Codespace** button. VS Code will open in your
@@ -204,8 +207,9 @@ node weather.js 94040
 
 ### Activity 1: Open your development environment
 
-1. Open the Codespace link in a new tab:
-   `https://codespaces.new/Poornamadhushan/Github-Copilot-CLI-Demo?quickstart=1`
+1. Open the Codespace link in a new tab (replace `YOUR-USERNAME` with your
+   GitHub username):
+   `https://codespaces.new/YOUR-USERNAME/Github-Copilot-CLI-Demo?quickstart=1`
 2. The free tier of Codespaces is fine if you still have minutes available.
 3. Confirm the **Repository** field shows *your fork*, not the original.
 4. Click **Create Codespace** and wait for VS Code to load.
