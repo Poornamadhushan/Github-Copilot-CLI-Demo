@@ -15,7 +15,7 @@ and developer tooling.
 | Platform | Link |
 |----------|------|
 | 🐙 GitHub | [github.com/Poornamadhushan](https://github.com/Poornamadhushan) |
-| 💼 LinkedIn | [linkedin.com/in/poornamadhushan](https://www.linkedin.com/in/poornamadhushan) |
+| 💼 LinkedIn | [linkedin.com/in/poornamadhushan](https://www.linkedin.com/in/poorna-madhushan/) |
 | 🐦 X / Twitter | [x.com/poornamadhushan](https://x.com/poornamadhushan) |
 
 Feel free to connect, star ⭐ this repo, and share your progress!
