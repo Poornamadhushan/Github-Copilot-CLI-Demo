@@ -1,47 +1,194 @@
-# Skills Exercise: Create Applications with the Copilot CLI
+# GitHub Copilot CLI Demo — Build a Node.js Weather CLI
 
-![original github octocat](https://octodex.github.com/images/original.png)
+![GitHub Copilot](https://octodex.github.com/images/original.png)
 
-👋 Hey there Welcome to your Skills exercise!
+> **A beginner-friendly, hands-on guide** to using GitHub Copilot CLI to build
+> a real Node.js weather application — step by step.
 
-Let's get you started with GitHub Copilot CLI! We will learn how to use it for
-issue management and building a Node.js weather CLI app.
+---
 
-✨ This is an interactive, hands-on GitHub Skills exercise.
+## 👤 About the Author
 
-As you complete each step, I will leave updates in the comments:
+Hi! I'm **Poorna Madhushan** — a developer passionate about AI-assisted coding
+and developer tooling.
 
-- Check your work and guide you forward
-- Share helpful tips and resources
-- Celebrate your progress and completion
+| Platform | Link |
+|----------|------|
+| 🐙 GitHub | [github.com/Poornamadhushan](https://github.com/Poornamadhushan) |
+| 💼 LinkedIn | [linkedin.com/in/poornamadhushan](https://www.linkedin.com/in/poornamadhushan) |
+| 🐦 X / Twitter | [x.com/poornamadhushan](https://x.com/poornamadhushan) |
 
-Let's get started - good luck and have fun!
+Feel free to connect, star ⭐ this repo, and share your progress!
 
--- Mona
+---
 
-If you encounter any issues along the way please report them here.
+## 📋 Table of Contents
 
-## Learning objectives
+1. [What Is This?](#-what-is-this)
+2. [Learning Objectives](#-learning-objectives)
+3. [Prerequisites](#-prerequisites)
+4. [How to Get GitHub Copilot CLI](#-how-to-get-github-copilot-cli)
+5. [Getting Started (Beginner Guide)](#-getting-started-beginner-guide)
+6. [Project Overview](#-project-overview)
+7. [Step 1 — Set Up & Create an Issue](#step-1--set-up--create-an-issue)
+8. [Step 2 — Generate weather.js with Copilot CLI](#step-2--generate-weatherjs-with-copilot-cli)
+9. [Step 3 — Run Your CLI](#step-3--run-your-cli)
+10. [Step 4 — Check Your Work](#step-4--check-your-work)
+11. [How to Get Your Certificate](#-how-to-get-your-certificate)
+12. [Extra Tips](#-extra-tips-optional)
+13. [License](#-license)
 
-By the end, you will be able to:
+---
 
-- Use GitHub Copilot CLI to generate and improve code from the terminal
-- Create a feature request issue using an issue template
-- Build a simple Node.js CLI that fetches real-time weather data
-- Practice error handling and user-friendly CLI output
+## 🌟 What Is This?
 
-## Project overview
+This repository is a **hands-on exercise** that teaches you how to use
+**GitHub Copilot CLI** — a powerful AI assistant that lives right in your
+terminal. By following this guide you will build a working Node.js CLI app that
+fetches real-time weather data, all while learning to use AI to write and
+improve code faster.
+
+---
+
+## 🎯 Learning Objectives
+
+By the end of this exercise, you will be able to:
+
+- Install and use **GitHub Copilot CLI** from your terminal
+- Use Copilot CLI to **generate and improve code** without leaving the command line
+- Create a **GitHub Issue** using an issue template
+- Build a **Node.js CLI app** that fetches live weather data from a public API
+- Practice **error handling** and user-friendly output
+- **Generate a completion certificate** for your work
+
+---
+
+## 🔧 Prerequisites
+
+Before you begin, make sure you have:
+
+| Requirement | Version | Notes |
+|-------------|---------|-------|
+| **Node.js** | 22 or later | [nodejs.org](https://nodejs.org/) |
+| **npm** | 10 or later | Comes with Node.js |
+| **GitHub account** | any | [github.com/signup](https://github.com/signup) |
+| **GitHub Copilot subscription** | Pro / Pro+ / Business / Enterprise | See below |
+
+> **New to GitHub?** Create a free account at [github.com/signup](https://github.com/signup)
+> then sign up for a Copilot subscription at
+> [github.com/features/copilot](https://github.com/features/copilot).
+
+---
+
+## 🚀 How to Get GitHub Copilot CLI
+
+GitHub Copilot CLI is a standalone terminal application that brings the power
+of GitHub Copilot directly to your command line. It is installed via npm.
+
+### Step A — Sign up for GitHub Copilot
+
+1. Go to [github.com/features/copilot](https://github.com/features/copilot)
+2. Click **Start a free trial** (students get it free via
+   [GitHub Education](https://education.github.com/))
+3. Choose a plan (Pro is enough for this exercise) and confirm
+
+### Step B — Install the CLI
+
+Open your terminal and run:
+
+```bash
+npm install -g @github/copilot
+```
+
+### Step C — Verify the installation
+
+```bash
+copilot --version
+```
+
+You should see a version number printed. If you see a `command not found` error,
+make sure your npm global `bin` folder is in your `PATH`.
+
+### Step D — Authenticate with GitHub
+
+```bash
+copilot --enable-all-github-mcp-tools
+```
+
+The first time you run this command, Copilot CLI will open a browser window
+and ask you to log in with your GitHub account. Follow the prompts to authorise.
+
+> **Tip:** If you restart your session you may need to re-authenticate by
+> running `!gh auth login` from within the Copilot CLI prompt.
+
+### Key CLI Shortcuts
+
+| Shortcut | Action |
+|----------|--------|
+| `@` | Mention a file — includes its content as context |
+| `Esc` | Cancel the current operation |
+| `!` | Run a shell command without going through Copilot |
+| `Ctrl+C` | Cancel / clear input / exit |
+| `Ctrl+D` | Shut down the CLI |
+| `Ctrl+L` | Clear the screen |
+| `Shift+Tab` | Switch between plan mode and interactive mode |
+
+### Useful CLI Commands
+
+| Command | What it does |
+|---------|-------------|
+| `/session` | Show details about the current chat session |
+| `/context` | View current token usage |
+| `/usage` | View session statistics |
+| `/share [file\|gist] [path]` | Share your session to a file or GitHub Gist |
+| `/delegate` | Delegate a task to the Copilot coding agent |
+
+---
+
+## 🏁 Getting Started (Beginner Guide)
+
+If you have never used a terminal before, here is a quick orientation:
+
+1. **Open a terminal**
+   - **Windows** — search for "Command Prompt" or install
+     [Windows Terminal](https://aka.ms/terminal)
+   - **macOS** — open **Terminal** from Applications → Utilities
+   - **Linux** — press `Ctrl+Alt+T`
+
+2. **Fork this repository** by clicking the **Fork** button at the top of this
+   page. This creates your own copy under your GitHub account.
+
+3. **Open the repository in a Codespace** (recommended — no local setup needed):
+
+   ```
+   https://codespaces.new/Poornamadhushan/Github-Copilot-CLI-Demo?quickstart=1
+   ```
+
+   Click the green **Create Codespace** button. VS Code will open in your
+   browser with a full terminal ready to use.
+
+4. **Install dependencies** in the terminal:
+
+   ```bash
+   npm install
+   ```
+
+5. **Install Copilot CLI** (see [How to Get GitHub Copilot CLI](#-how-to-get-github-copilot-cli) above).
+
+6. Follow the steps in the sections below to complete the exercise.
+
+---
+
+## 📦 Project Overview
 
 You will build a CLI app called `weather.js` that:
 
-- accepts a city name or zip code as a command line argument
-- fetches real-time weather data from a public weather API
-- displays temperature in Celsius, weather condition description, and humidity
-- shows an error message if the location is not found
+- Accepts a city name or zip code as a command-line argument
+- Fetches **real-time weather data** from a public API (`wttr.in`)
+- Displays **temperature in Celsius**, weather condition, and humidity
+- Shows a friendly **error message** if the location is not found
 
-API used in this exercise:
-
-- https://wttr.in/London?format=j1
+API used in this exercise: `https://wttr.in/London?format=j1`
 
 Example usage:
 
@@ -51,144 +198,37 @@ node weather.js London
 node weather.js 94040
 ```
 
-## Certificate generation (DOCX)
+---
 
-You can generate a certificate from a PowerPoint template by running:
+## Step 1 — Set Up & Create an Issue
 
-```bash
-node weather.js cert
-```
+### Activity 1: Open your development environment
 
-The CLI will ask for a student name and use today's date automatically, then
-create a PDF file in the `output/` folder. PDF export requires Microsoft Word
-on Windows.
-
-### Template setup
-
-Place your template at:
-
-```
-templates/certificate-template.docx
-```
-
-In the DOCX, add these placeholders exactly (double curly braces):
-
-- `{{NAME}}`
-- `{{DATE}}`
-
-These placeholders must be plain text in the document so they can be replaced.
-
-After a successful weather lookup, the CLI also prompts for the student name
-and generates the certificate automatically.
-
-PDF export requires Microsoft Word on Windows. If you only see a DOCX file,
-install Word and re-run the command.
-
-## Step 1: Install Copilot CLI and use the issue template
-
-Duck prefers working in the terminal and wants to use AI from there. Duck is
-getting ready to develop a new Node.js CLI weather app and plans to install the
-standalone Copilot CLI to build the application from the terminal.
-
-### Theory: GitHub Copilot CLI - a standalone terminal application
-
-GitHub Copilot CLI is a standalone terminal application that brings the power
-of GitHub Copilot directly to your command line. It is installed via npm and
-provides a rich interactive experience for developers.
-
-Key capabilities and options to be aware of include:
-
-- Providing intelligent command suggestions powered by the latest AI models
-- Generating code snippets and scripts directly in your terminal
-- Assisting with Git operations and GitHub interactions
-- Supporting image inputs via paste and drag-and-drop for visual context
-- The `--enable-all-github-mcp-tools` flag enables all GitHub MCP tools, giving
-	Copilot CLI access to GitHub features like creating issues and repositories
-- Depending on your configuration, you may be prompted to enable features for
-	the session. Respond yes to these prompts.
-- `/session` shows details about your current chat session
-- `/context` provides a visual overview of your current token usage
-- `/usage` lets you view session statistics
-- `/share [file|gist] [path]` shares your session to a file or GitHub gist
-- You can create custom agents to encode specialized prompts and workflows
-- You can delegate tasks to the Copilot coding agent with `/delegate`
-
-Global shortcuts:
-
-```
-@            mention files, include contents in context
-Esc          cancel the current operation
-!            execute command in your local shell (bypass Copilot)
-Ctrl+C       cancel operation / clear input / exit
-Ctrl+D       shutdown
-Ctrl+L       clear the screen
-Shift+Tab    switch between plan mode and regular interactive mode
-```
-
-Installation requirements:
-
-- Node.js 22 or later
-- npm 10 or later
-- Active GitHub Copilot subscription (Pro, Pro+, Business, or Enterprise)
-
-Issue templates help maintain consistency when team members create issues. This
-repository already has a `feature_request.md` template that you will use to
-create your weather app issue.
-
-References:
-
-- https://docs.github.com/en/copilot/how-tos/set-up/install-copilot-cli
-- https://docs.github.com/en/copilot/how-tos/use-copilot-agents/use-copilot-cli
-- https://github.blog/ai-and-ml/github-copilot-cli-101-how-to-use-github-copilot-from-the-command-line/
-
-Important: If you restarted your Codespace you may need to run
-`copilot --allow-all` and authenticate with GitHub again using `!gh auth login`
-in your terminal, or `!gh auth login` from within the Copilot CLI session.
-
-### Activity 1: Getting to know your development environment
-
-1. Open the Create Codespace page in a new tab:
-
-	 https://codespaces.new/Poornamadhushan/Github-Copilot-CLI-Demo?quickstart=1
-
+1. Open the Codespace link in a new tab:
+   `https://codespaces.new/Poornamadhushan/Github-Copilot-CLI-Demo?quickstart=1`
 2. The free tier of Codespaces is fine if you still have minutes available.
-3. Confirm the Repository field is your copy of the exercise, not the original.
-4. Click the green Create Codespace button.
-5. Wait a moment for Visual Studio Code to load.
-
-We will be focused on the full terminal window since this is all about the CLI.
+3. Confirm the **Repository** field shows *your fork*, not the original.
+4. Click **Create Codespace** and wait for VS Code to load.
 
 ### Activity 2: Install the standalone Copilot CLI
 
-Install the standalone GitHub Copilot CLI by running in the terminal window:
-
 ```bash
 npm install -g @github/copilot
-```
-
-Verify the installation:
-
-```bash
 copilot --version
 ```
 
-Tip: After installation, you can use the `copilot` command anywhere in your
-terminal to start an interactive session.
-
 ### Activity 3: Create an issue using Copilot CLI
 
-Start an interactive Copilot CLI session:
+Start an interactive session:
 
 ```bash
 copilot --enable-all-github-mcp-tools
 ```
 
-When starting Copilot CLI, you may be prompted to add this folder to the
-trusted folder list and to key bindings. Respond yes to both prompts to
-continue.
+When prompted to add the folder to the trusted list and configure key bindings,
+respond **yes** to both.
 
-Ask Copilot CLI to create a feature request issue for the weather app. Example
-prompt:
+Then paste the following prompt:
 
 ```text
 Create a GitHub issue for a Node.js CLI weather app using the
@@ -200,13 +240,19 @@ is not found. Create the issue in the current repository using gh CLI
 commands and list the issue link when complete.
 ```
 
-Mona should check your work shortly and post the next step in the comments.
+References:
 
-## Step 2: Generate the weather.js logic with Copilot CLI
+- [Install Copilot CLI](https://docs.github.com/en/copilot/how-tos/set-up/install-copilot-cli)
+- [Use Copilot CLI](https://docs.github.com/en/copilot/how-tos/use-copilot-agents/use-copilot-cli)
+- [Copilot CLI 101 blog post](https://github.blog/ai-and-ml/github-copilot-cli-101-how-to-use-github-copilot-from-the-command-line/)
 
-Open `weather.js` and follow the TODOs. Use Copilot CLI to help you.
+---
 
-Suggested prompts:
+## Step 2 — Generate weather.js with Copilot CLI
+
+Open `weather.js` and follow the TODO comments. Use the Copilot CLI to help you.
+
+**Suggested prompts:**
 
 ```text
 Write a Node.js script that reads a location from argv, calls
@@ -220,39 +266,83 @@ Explain how to parse JSON from wttr.in format=j1 and extract temp_C,
 weatherDesc[0].value, and humidity.
 ```
 
-## Step 3: Run your CLI
+---
+
+## Step 3 — Run Your CLI
 
 ```bash
 node weather.js Colombo
 ```
 
-If your output looks good, try a few more locations:
+If the output looks good, try a few more locations:
 
 ```bash
 node weather.js London
 node weather.js 94040
 ```
 
-## License
+---
 
-[MIT License](LICENSE)
+## Step 4 — Check Your Work
 
-## Step 4: Check your work
+Use this checklist before moving on:
 
-Use this checklist:
+- [ ] CLI accepts a city name or zip code
+- [ ] Data is fetched using `async/await`
+- [ ] Output shows Celsius temperature, weather condition, and humidity
+- [ ] An invalid location shows a clear, friendly error message
 
-- CLI accepts a city or zip code
-- Data is fetched with async/await
-- Output shows Celsius temperature, weather condition, and humidity
-- Invalid location shows a clear error message
+---
 
-## Extra tips (optional)
+## 🏆 How to Get Your Certificate
 
-- Add input validation and a usage message
-- Format output nicely (labels, line breaks)
-- Handle network errors with a friendly message
+Once you have completed the exercise and your CLI is working, you can generate
+a personalised **completion certificate**.
 
-## You are done
+### Option A — Generate via the CLI command
 
-Nice work! You created a real CLI app with Copilot CLI. Mona will post your
-next step in the comments.
+Run the following command and enter your name when prompted:
+
+```bash
+node weather.js cert
+```
+
+The CLI will:
+1. Ask for your **name**
+2. Automatically use **today's date**
+3. Create a certificate DOCX (and PDF on Windows with Word installed) inside
+   the `output/` folder
+
+### Option B — Generate after a weather lookup
+
+After a successful weather lookup the CLI will also prompt for your name and
+generate the certificate automatically.
+
+### Template customisation
+
+The certificate template lives at `templates/certificate-template.docx`.
+It uses two placeholders that are replaced at runtime:
+
+| Placeholder | Replaced with |
+|-------------|---------------|
+| `{{NAME}}` | Your name (entered at the prompt) |
+| `{{DATE}}` | Today's date (set automatically) |
+
+> **Note:** PDF export requires **Microsoft Word on Windows**. On other
+> operating systems the `output/` folder will contain a DOCX file instead.
+
+---
+
+## 💡 Extra Tips (Optional)
+
+- Add input validation and a `--help` usage message
+- Format the output with labels and line breaks for better readability
+- Handle network errors with a friendly message (e.g., "Could not reach the weather service")
+- Try using Copilot CLI's `/share` command to save and share your session
+
+---
+
+## 📄 License
+
+This project is licensed under the **MIT License** — see the
+[LICENSE](LICENSE) file for details.
