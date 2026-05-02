@@ -71,12 +71,23 @@ Before you begin, make sure you have:
 |-------------|---------|-------|
 | **Node.js** | 22 or later | [nodejs.org](https://nodejs.org/) |
 | **npm** | 10 or later | Comes with Node.js |
+| **GitHub CLI (`gh`)** | 2 or later | [cli.github.com](https://cli.github.com/) — needed to create issues and authenticate |
 | **GitHub account** | any | [github.com/signup](https://github.com/signup) |
 | **GitHub Copilot subscription** | Pro / Pro+ / Business / Enterprise | See below |
 
 > **New to GitHub?** Create a free account at [github.com/signup](https://github.com/signup)
 > then sign up for a Copilot subscription at
 > [github.com/features/copilot](https://github.com/features/copilot).
+
+**Quick check — verify your versions in the terminal before you start:**
+
+```bash
+node --version   # should print v22.x.x or higher
+npm --version    # should print 10.x.x or higher
+gh --version     # should print gh version 2.x.x or higher
+```
+
+If any command is missing or the version is too low, follow the link in the table above to install or update it.
 
 ---
 
@@ -100,26 +111,43 @@ Open your terminal and run:
 npm install -g @github/copilot
 ```
 
+> **If you get a 404 or "not found" error**, the package name may have changed.
+> Check the [official install guide](https://docs.github.com/en/copilot/how-tos/set-up/install-copilot-cli)
+> for the latest install command.
+
 ### Step C — Verify the installation
 
 ```bash
 copilot --version
 ```
 
-You should see a version number printed. If you see a `command not found` error,
-make sure your npm global `bin` folder is in your `PATH`.
+You should see a version number printed, for example `1.0.0`.
+
+**Troubleshooting:**
+- `command not found` — your npm global `bin` folder is not in your `PATH`.
+  Run `npm config get prefix` to find the folder, then add `<that folder>/bin`
+  to your `PATH` environment variable and open a new terminal.
+- Wrong version — run `npm install -g @github/copilot` again to update.
 
 ### Step D — Authenticate with GitHub
+
+This command starts the Copilot CLI **and** enables all built-in tools
+(including the GitHub tools needed for creating issues):
 
 ```bash
 copilot --enable-all-github-mcp-tools
 ```
 
-The first time you run this command, Copilot CLI will open a browser window
-and ask you to log in with your GitHub account. Follow the prompts to authorise.
+**What to expect the first time:**
+1. A browser window opens asking you to sign in to GitHub.
+2. Click **Authorize** to grant Copilot CLI access to your account.
+3. Return to your terminal — you will see an interactive prompt where you can
+   type requests in plain English.
 
-> **Tip:** If you restart your session you may need to re-authenticate by
-> running `!gh auth login` from within the Copilot CLI prompt.
+> **Re-authentication tip:** If you close and reopen your terminal you may need
+> to log in again. Inside the Copilot CLI prompt, the `!` prefix runs a plain
+> shell command. So type `!gh auth login` and press Enter — this runs
+> `gh auth login` without sending it to Copilot — then follow the prompts.
 
 ### Key CLI Shortcuts
 
@@ -160,9 +188,15 @@ If you have never used a terminal before, here is a quick orientation:
 
 3. **Open the repository in a Codespace** (recommended — no local setup needed):
 
-   Replace `YOUR-USERNAME` with your GitHub username in the URL below, then
-   open it in a new tab:
+   After forking, replace `YOUR-USERNAME` with your actual GitHub username in
+   the URL below, then open it in a new browser tab.
 
+   For example, if your GitHub username is `alice`, the URL would look like:
+   ```
+   https://codespaces.new/alice/Github-Copilot-CLI-Demo?quickstart=1
+   ```
+
+   General pattern:
    ```
    https://codespaces.new/YOUR-USERNAME/Github-Copilot-CLI-Demo?quickstart=1
    ```
@@ -208,16 +242,22 @@ node weather.js 94040
 ### Activity 1: Open your development environment
 
 1. Open the Codespace link in a new tab (replace `YOUR-USERNAME` with your
-   GitHub username):
+   GitHub username — see the example in
+   [Getting Started Step 3](#-getting-started-beginner-guide)):
    `https://codespaces.new/YOUR-USERNAME/Github-Copilot-CLI-Demo?quickstart=1`
 2. The free tier of Codespaces is fine if you still have minutes available.
 3. Confirm the **Repository** field shows *your fork*, not the original.
 4. Click **Create Codespace** and wait for VS Code to load.
 
-### Activity 2: Install the standalone Copilot CLI
+### Activity 2: Start the Copilot CLI
+
+If you have not yet installed Copilot CLI, go back to
+[How to Get GitHub Copilot CLI](#-how-to-get-github-copilot-cli) and complete
+Steps B–D first.
+
+Confirm it is installed and launch it:
 
 ```bash
-npm install -g @github/copilot
 copilot --version
 ```
 
@@ -252,9 +292,19 @@ References:
 
 ---
 
-## Step 2 — Generate weather.js with Copilot CLI
+## Step 2 — Complete weather.js with Copilot CLI
 
-Open `weather.js` and follow the TODO comments. Use the Copilot CLI to help you.
+Open `weather.js`. At the top of the file you will see five TODO comments that
+describe what the script needs to do. The rest of the file already contains
+helper code for generating the certificate — **your job is to fill in the
+weather-fetching logic described by those TODOs**.
+
+Use the Copilot CLI to generate or improve that code. Start a session if you
+haven't already:
+
+```bash
+copilot --enable-all-github-mcp-tools
+```
 
 **Suggested prompts:**
 
