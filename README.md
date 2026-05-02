@@ -191,9 +191,9 @@ If you have never used a terminal before, here is a quick orientation:
    After forking, replace `YOUR-USERNAME` with your actual GitHub username in
    the URL below, then open it in a new browser tab.
 
-   For example, if your GitHub username is `jsmith`, the URL would look like:
+   For example, if your GitHub username is `alice`, the URL would look like:
    ```
-   https://codespaces.new/jsmith/Github-Copilot-CLI-Demo?quickstart=1
+   https://codespaces.new/alice/Github-Copilot-CLI-Demo?quickstart=1
    ```
 
    General pattern:
@@ -242,7 +242,8 @@ node weather.js 94040
 ### Activity 1: Open your development environment
 
 1. Open the Codespace link in a new tab (replace `YOUR-USERNAME` with your
-   GitHub username — e.g. `https://codespaces.new/jsmith/Github-Copilot-CLI-Demo?quickstart=1`):
+   GitHub username — see the example in
+   [Getting Started Step 3](#-getting-started-beginner-guide)):
    `https://codespaces.new/YOUR-USERNAME/Github-Copilot-CLI-Demo?quickstart=1`
 2. The free tier of Codespaces is fine if you still have minutes available.
 3. Confirm the **Repository** field shows *your fork*, not the original.
