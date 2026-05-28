@@ -1,0 +1,23 @@
+---
+const links = [
+  { href: "/docs/introduction", label: "Introduction" },
+  { href: "/docs/install", label: "Install GitHub CLI" },
+  { href: "/docs/basics", label: "GitHub CLI Basics" },
+  { href: "/docs/build-weather-cli", label: "Build Weather CLI" },
+  { href: "/docs/run-weather-cli", label: "Run Weather CLI" },
+  { href: "/docs/troubleshooting", label: "Troubleshooting" },
+];
+---
+<aside class="rounded-3xl border border-[color:var(--border)] bg-[color:var(--card)]/90 p-6 shadow-soft">
+  <h2 class="text-lg font-semibold">Learning Path</h2>
+  <p class="mt-2 text-sm text-[color:var(--text-muted)]">
+    Follow the sequence to move from setup to a working Weather CLI.
+  </p>
+  <nav class="mt-4 flex flex-col gap-3">
+    {links.map((link) => (
+      <a href={link.href} class="rounded-lg border border-transparent px-2 py-1 text-sm font-medium transition hover:border-[color:var(--border)] hover:bg-[color:var(--bg-soft)]">
+        {link.label}
+      </a>
+    ))}
+  </nav>
+</aside>

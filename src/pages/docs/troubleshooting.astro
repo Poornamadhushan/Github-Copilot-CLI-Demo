@@ -1,0 +1,40 @@
+---
+import DocsLayout from "../../layouts/DocsLayout.astro";
+import TutorialSection from "../../components/TutorialSection.astro";
+import CodeBlock from "../../components/CodeBlock.astro";
+---
+<DocsLayout title="Troubleshooting" description="Common issues and fixes for GitHub CLI and the Weather CLI demo.">
+  <div class="space-y-12">
+    <TutorialSection
+      eyebrow="Help"
+      title="gh command not found"
+      description="Ensure GitHub CLI is installed and available in your PATH."
+    >
+      <CodeBlock title="Verify" code={`gh --version`} />
+    </TutorialSection>
+
+    <TutorialSection
+      eyebrow="Help"
+      title="Authentication failed"
+      description="Re-run the login flow and select HTTPS for Git operations."
+    >
+      <CodeBlock title="Login again" code={`gh auth login`} />
+    </TutorialSection>
+
+    <TutorialSection
+      eyebrow="Help"
+      title="Weather API does not respond"
+      description="Check the URL and your internet connection. The API should return JSON when using format=j1."
+    >
+      <CodeBlock title="Test the API" code={`curl "https://wttr.in/Colombo?format=j1"`} />
+    </TutorialSection>
+
+    <TutorialSection
+      eyebrow="Help"
+      title="Node.js version too old"
+      description="The Weather CLI uses the fetch API. Ensure Node.js 18 or later is installed."
+    >
+      <CodeBlock title="Check Node" code={`node --version`} />
+    </TutorialSection>
+  </div>
+</DocsLayout>

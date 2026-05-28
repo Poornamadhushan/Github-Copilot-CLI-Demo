@@ -1,0 +1,73 @@
+---
+import DocsLayout from "../../layouts/DocsLayout.astro";
+import TutorialSection from "../../components/TutorialSection.astro";
+import CodeBlock from "../../components/CodeBlock.astro";
+---
+<DocsLayout title="GitHub CLI Basics" description="Core gh commands with explanations and expected output.">
+  <div class="space-y-12">
+    <TutorialSection
+      eyebrow="Step 4"
+      title="Authenticate once"
+      description="Sign in so gh can access your GitHub account and repositories."
+    >
+      <CodeBlock title="Command" code={`gh auth login`} />
+      <CodeBlock
+        title="Expected output"
+        language="text"
+        code={`? What account do you want to log into? GitHub.com\n? What is your preferred protocol for Git operations? HTTPS\n? Authenticate Git with your GitHub credentials? Yes`}
+      />
+    </TutorialSection>
+
+    <TutorialSection
+      eyebrow="Step 4"
+      title="Clone a repository"
+      description="Copy a repo to your local machine without leaving the terminal."
+    >
+      <CodeBlock title="Command" code={`gh repo clone username/project-name`} />
+      <CodeBlock
+        title="Expected output"
+        language="text"
+        code={`Cloning into 'project-name'...\nremote: Enumerating objects: 42, done.`}
+      />
+    </TutorialSection>
+
+    <TutorialSection
+      eyebrow="Step 4"
+      title="Create a new repository"
+      description="Create a repo interactively with name, visibility, and description."
+    >
+      <CodeBlock title="Command" code={`gh repo create`} />
+      <CodeBlock
+        title="Expected output"
+        language="text"
+        code={`? What would you like to do? Create a new repository on GitHub from scratch\n? Repository name my-weather-cli\n? Visibility Public`}
+      />
+    </TutorialSection>
+
+    <TutorialSection
+      eyebrow="Step 4"
+      title="List issues"
+      description="Inspect open issues directly from the CLI."
+    >
+      <CodeBlock title="Command" code={`gh issue list`} />
+      <CodeBlock
+        title="Expected output"
+        language="text"
+        code={`Showing 3 of 3 open issues in owner/repo\n#12  Update README\n#11  Weather API error handling`}
+      />
+    </TutorialSection>
+
+    <TutorialSection
+      eyebrow="Step 4"
+      title="View repository details"
+      description="Quickly see repo metadata and top issues."
+    >
+      <CodeBlock title="Command" code={`gh repo view`} />
+      <CodeBlock
+        title="Expected output"
+        language="text"
+        code={`owner/repo\nAbout: Weather CLI training\nDefault branch: main\nOpen issues: 3`}
+      />
+    </TutorialSection>
+  </div>
+</DocsLayout>

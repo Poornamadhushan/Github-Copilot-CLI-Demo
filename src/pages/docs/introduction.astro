@@ -1,0 +1,42 @@
+---
+import DocsLayout from "../../layouts/DocsLayout.astro";
+import TutorialSection from "../../components/TutorialSection.astro";
+import StepCard from "../../components/StepCard.astro";
+
+const flow = [
+  { step: "1", title: "Learn what GitHub CLI is", description: "Understand why gh speeds up repo work." },
+  { step: "2", title: "Install GitHub CLI", description: "Pick Windows, macOS, or Linux." },
+  { step: "3", title: "Authenticate", description: "Run gh auth login once." },
+  { step: "4", title: "Master basics", description: "Clone, create, and view repos." },
+  { step: "5", title: "Build Weather CLI", description: "Create a Node.js CLI project." },
+  { step: "6", title: "Run the CLI", description: "Test with real city names." },
+  { step: "7", title: "Check weather", description: "Verify condition, temp, humidity." },
+];
+---
+<DocsLayout title="Introduction" description="Overview of the GitHub CLI Weather Lab training flow.">
+  <div class="space-y-10">
+    <TutorialSection
+      eyebrow="Step 1"
+      title="Learn what GitHub CLI is"
+      description="GitHub CLI (gh) lets you work with GitHub from the terminal. It helps you clone repos, create issues, and view project details without switching to the browser."
+    />
+
+    <TutorialSection
+      eyebrow="Training flow"
+      title="Your learning path"
+      description="Follow each step in order to reach a working Weather CLI demo."
+    >
+      <div class="grid gap-4 md:grid-cols-2">
+        {flow.map((item) => (
+          <StepCard {...item} />
+        ))}
+      </div>
+    </TutorialSection>
+
+    <TutorialSection
+      eyebrow="What you will build"
+      title="A practical Weather CLI demo"
+      description="You will build a small Node.js script that accepts a city name, fetches weather from a public API, and prints a clean terminal summary."
+    />
+  </div>
+</DocsLayout>

@@ -1,0 +1,13 @@
+---
+const { title, eyebrow, description } = Astro.props;
+---
+<section class="space-y-4">
+  {eyebrow ? (
+    <p class="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--accent)]">{eyebrow}</p>
+  ) : null}
+  <h2 class="text-2xl font-semibold md:text-3xl">{title}</h2>
+  {description ? <p class="text-sm text-[color:var(--text-muted)]">{description}</p> : null}
+  <div class="space-y-6">
+    <slot />
+  </div>
+</section>

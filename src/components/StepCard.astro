@@ -1,0 +1,8 @@
+---
+const { step, title, description } = Astro.props;
+---
+<div class="rounded-2xl border border-[color:var(--border)] bg-[color:var(--card)] p-6 shadow-soft">
+  <p class="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--accent)]">Step {step}</p>
+  <h3 class="mt-3 text-lg font-semibold">{title}</h3>
+  <p class="mt-2 text-sm text-[color:var(--text-muted)]">{description}</p>
+</div>

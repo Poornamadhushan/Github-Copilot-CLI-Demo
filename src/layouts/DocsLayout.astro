@@ -1,0 +1,21 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+import Header from "../components/Header.astro";
+import Sidebar from "../components/Sidebar.astro";
+import Footer from "../components/Footer.astro";
+const { title, description } = Astro.props;
+---
+<BaseLayout title={title} description={description}>
+  <div class="relative">
+    <Header />
+    <div class="section-pad">
+      <div class="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[260px_1fr]">
+        <Sidebar />
+        <main class="rounded-3xl border border-[color:var(--border)] bg-[color:var(--card)]/90 p-6 shadow-soft md:p-10">
+          <slot />
+        </main>
+      </div>
+    </div>
+    <Footer />
+  </div>
+</BaseLayout>

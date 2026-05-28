@@ -1,0 +1,54 @@
+---
+import DocsLayout from "../../layouts/DocsLayout.astro";
+import TutorialSection from "../../components/TutorialSection.astro";
+import CodeBlock from "../../components/CodeBlock.astro";
+---
+<DocsLayout title="Install GitHub CLI" description="Install and authenticate GitHub CLI on Windows, macOS, or Linux.">
+  <div class="space-y-12">
+    <TutorialSection
+      eyebrow="Step 2"
+      title="Install GitHub CLI on Windows"
+      description="Use winget or the official installer to get gh on Windows."
+    >
+      <CodeBlock title="Windows install" code={`winget install --id GitHub.cli`} />
+      <div class="rounded-2xl border border-dashed border-[color:var(--border)] bg-[color:var(--bg-soft)] p-6 text-sm text-[color:var(--text-muted)]">
+        Screenshot placeholder: Windows installer or winget output.
+      </div>
+    </TutorialSection>
+
+    <TutorialSection
+      eyebrow="Step 2"
+      title="Install GitHub CLI on macOS"
+      description="Use Homebrew for a quick install."
+    >
+      <CodeBlock title="macOS install" code={`brew install gh`} />
+      <div class="rounded-2xl border border-dashed border-[color:var(--border)] bg-[color:var(--bg-soft)] p-6 text-sm text-[color:var(--text-muted)]">
+        Screenshot placeholder: Homebrew install output.
+      </div>
+    </TutorialSection>
+
+    <TutorialSection
+      eyebrow="Step 2"
+      title="Install GitHub CLI on Linux"
+      description="Use apt on Debian or Ubuntu based systems."
+    >
+      <CodeBlock title="Linux install" code={`sudo apt update\nsudo apt install gh`} />
+      <div class="rounded-2xl border border-dashed border-[color:var(--border)] bg-[color:var(--bg-soft)] p-6 text-sm text-[color:var(--text-muted)]">
+        Screenshot placeholder: apt install output.
+      </div>
+    </TutorialSection>
+
+    <TutorialSection
+      eyebrow="Step 3"
+      title="Authenticate GitHub CLI"
+      description="Run gh auth login and follow the prompts in your terminal."
+    >
+      <CodeBlock title="Authenticate" code={`gh auth login`} />
+      <CodeBlock
+        title="Expected output"
+        language="text"
+        code={`? What account do you want to log into? GitHub.com\n? What is your preferred protocol for Git operations? HTTPS\n? Authenticate Git with your GitHub credentials? Yes`}
+      />
+    </TutorialSection>
+  </div>
+</DocsLayout>

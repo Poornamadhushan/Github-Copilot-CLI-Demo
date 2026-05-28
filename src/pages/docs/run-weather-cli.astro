@@ -1,0 +1,53 @@
+---
+import DocsLayout from "../../layouts/DocsLayout.astro";
+import TutorialSection from "../../components/TutorialSection.astro";
+import CodeBlock from "../../components/CodeBlock.astro";
+import TerminalPreview from "../../components/TerminalPreview.astro";
+---
+<DocsLayout title="Run the Weather CLI" description="Run and test your Weather CLI demo.">
+  <div class="space-y-12">
+    <TutorialSection
+      eyebrow="Step 6"
+      title="Run your CLI"
+      description="Execute the script and confirm that it prints condition, temperature, and humidity."
+    >
+      <CodeBlock title="Run" code={`node index.js Colombo`} />
+      <TerminalPreview
+        title="Expected output"
+        lines={[
+          "$ node index.js Colombo",
+          "Weather in Colombo",
+          "Condition: Partly cloudy",
+          "Temperature: 30 C",
+          "Humidity: 70%",
+        ]}
+      />
+    </TutorialSection>
+
+    <TutorialSection
+      eyebrow="Step 7"
+      title="Check weather using city names"
+      description="Try multiple cities and confirm that the output stays consistent."
+    >
+      <CodeBlock title="Try another city" code={`node index.js Tokyo`} />
+      <CodeBlock
+        title="Expected output"
+        language="text"
+        code={`Weather in Tokyo\nCondition: Clear\nTemperature: 28 C\nHumidity: 62%`}
+      />
+    </TutorialSection>
+
+    <TutorialSection
+      eyebrow="Step 7"
+      title="Verify error handling"
+      description="Use an invalid city name to confirm the friendly error message."
+    >
+      <CodeBlock title="Invalid city" code={`node index.js NotARealCity`} />
+      <CodeBlock
+        title="Expected output"
+        language="text"
+        code={`Could not fetch weather. Check the city name and try again.`}
+      />
+    </TutorialSection>
+  </div>
+</DocsLayout>

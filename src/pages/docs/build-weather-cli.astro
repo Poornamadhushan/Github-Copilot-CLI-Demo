@@ -1,0 +1,80 @@
+---
+import DocsLayout from "../../layouts/DocsLayout.astro";
+import TutorialSection from "../../components/TutorialSection.astro";
+import CodeBlock from "../../components/CodeBlock.astro";
+---
+<DocsLayout title="Build the Weather CLI" description="Step-by-step tutorial for building the Weather CLI demo.">
+  <div class="space-y-12">
+    <TutorialSection
+      eyebrow="Step 5"
+      title="Project goal"
+      description="Build a Node.js CLI that accepts a city name, fetches weather data, and prints condition, temperature, and humidity."
+    />
+
+    <TutorialSection
+      eyebrow="Step 6"
+      title="Weather API demo"
+      description="The demo uses a public endpoint from wttr.in that returns JSON."
+    >
+      <CodeBlock title="API request" code={`curl "https://wttr.in/Colombo?format=j1"`} />
+      <CodeBlock
+        title="Parsing JSON"
+        language="text"
+        code={`current_condition[0].temp_C\ncurrent_condition[0].weatherDesc[0].value\ncurrent_condition[0].humidity`}
+      />
+    </TutorialSection>
+
+    <TutorialSection
+      eyebrow="Step 6"
+      title="Step 1: Initialize the project"
+      description="Create a new folder and initialize a Node.js project."
+    >
+      <CodeBlock title="Command" code={`mkdir weather-cli\ncd weather-cli\nnpm init -y`} />
+    </TutorialSection>
+
+    <TutorialSection
+      eyebrow="Step 6"
+      title="Step 2: Install dependencies"
+      description="This demo uses the built-in fetch API in Node.js 18+. No extra packages are required."
+    >
+      <CodeBlock title="Command" code={`npm install`} />
+    </TutorialSection>
+
+    <TutorialSection
+      eyebrow="Step 6"
+      title="Step 3: Create index.js"
+      description="Add a file that reads the city name and fetches weather data."
+    >
+      <CodeBlock
+        title="index.js"
+        language="javascript"
+        code={`const city = process.argv.slice(2).join(" ").trim();\n\nif (!city) {\n  console.log("Usage: node index.js <city>");\n  process.exit(1);\n}\n\nconst buildUrl = (name) => \`https://wttr.in/\${encodeURIComponent(name)}?format=j1\`;\n\nconst main = async () => {\n  try {\n    const response = await fetch(buildUrl(city));\n    if (!response.ok) {\n      throw new Error("Weather service error");\n    }\n    const data = await response.json();\n    const current = data?.current_condition?.[0];\n    if (!current) {\n      throw new Error("City not found");\n    }\n\n    const condition = current.weatherDesc?.[0]?.value ?? "Unknown";\n    const tempC = current.temp_C ?? "?";\n    const humidity = current.humidity ?? "?";\n\n    console.log(\`Weather in \${city}\`);\n    console.log(\`Condition: \${condition}\`);\n    console.log(\`Temperature: \${tempC} C\`);\n    console.log(\`Humidity: \${humidity}%\`);\n  } catch (error) {\n    console.log("Could not fetch weather. Check the city name and try again.");\n  }\n};\n\nmain();`}
+      />
+    </TutorialSection>
+
+    <TutorialSection
+      eyebrow="Step 6"
+      title="Step 4: Add the fetch request"
+      description="Build the URL and request JSON data from wttr.in."
+    >
+      <CodeBlock
+        title="Fetch logic"
+        language="javascript"
+        code={`const buildUrl = (name) => \`https://wttr.in/\${encodeURIComponent(name)}?format=j1\`;\n\nconst response = await fetch(buildUrl(city));\nconst data = await response.json();\nconst current = data?.current_condition?.[0];`}
+      />
+    </TutorialSection>
+
+    <TutorialSection
+      eyebrow="Step 6"
+      title="Step 5: Run the CLI"
+      description="Execute the script with a city name to verify the output."
+    >
+      <CodeBlock title="Command" code={`node index.js Colombo`} />
+      <CodeBlock
+        title="Expected output"
+        language="text"
+        code={`Weather in Colombo\nCondition: Partly cloudy\nTemperature: 30 C\nHumidity: 70%`}
+      />
+    </TutorialSection>
+  </div>
+</DocsLayout>

@@ -1,0 +1,16 @@
+---
+const { title = "Terminal", lines = [] } = Astro.props;
+---
+<div class="rounded-3xl border border-[color:var(--border)] bg-[#0f172a] text-slate-100 shadow-soft">
+  <div class="flex items-center gap-2 border-b border-slate-700/60 px-4 py-3">
+    <span class="h-2 w-2 rounded-full bg-emerald-400"></span>
+    <span class="h-2 w-2 rounded-full bg-amber-400"></span>
+    <span class="h-2 w-2 rounded-full bg-rose-400"></span>
+    <p class="ml-2 text-xs uppercase tracking-[0.2em] text-slate-300">{title}</p>
+  </div>
+  <div class="space-y-2 px-4 py-4 text-sm">
+    {lines.map((line) => (
+      <p class="font-mono">{line}</p>
+    ))}
+  </div>
+</div>

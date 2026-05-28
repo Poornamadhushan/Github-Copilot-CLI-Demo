@@ -1,0 +1,57 @@
+---
+const { code = "", language = "bash", title = "Command", variant = "terminal" } = Astro.props;
+const codeId = `code-${Math.random().toString(36).slice(2)}`;
+---
+<div class={`rounded-2xl border border-[color:var(--border)] bg-[#0f172a] text-slate-100 shadow-soft ${variant === "terminal" ? "" : "bg-slate-900"}`}>
+  <div class="flex items-center justify-between border-b border-slate-700/60 px-4 py-2 text-xs uppercase tracking-[0.2em] text-slate-300">
+    <span>{title}</span>
+    <button class="copy-btn rounded-full border border-slate-600 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em]" data-copy-target={codeId}>
+      Copy
+    </button>
+  </div>
+  <pre class="overflow-x-auto px-4 py-4 text-sm leading-relaxed" id={codeId}>
+    <code class={`language-${language}`}>{code}</code>
+  </pre>
+</div>
+
+<script>
+  import Prism from "prismjs";
+  import "prismjs/components/prism-bash";
+  import "prismjs/components/prism-javascript";
+  import "prismjs/components/prism-json";
+  import "prismjs/components/prism-markup";
+  import "prismjs/components/prism-yaml";
+
+  const attachCopy = () => {
+    document.querySelectorAll(".copy-btn").forEach((button) => {
+      if (button.dataset.bound) return;
+      button.dataset.bound = "true";
+      button.addEventListener("click", async () => {
+        const targetId = button.getAttribute("data-copy-target");
+        const node = targetId ? document.getElementById(targetId) : null;
+        if (!node) return;
+        const text = node.innerText.trim();
+        try {
+          await navigator.clipboard.writeText(text);
+          button.textContent = "Copied";
+          setTimeout(() => {
+            button.textContent = "Copy";
+          }, 1600);
+        } catch {
+          button.textContent = "Failed";
+          setTimeout(() => {
+            button.textContent = "Copy";
+          }, 1600);
+        }
+      });
+    });
+  };
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", attachCopy);
+  } else {
+    attachCopy();
+  }
+
+  Prism.highlightAll();
+</script>
